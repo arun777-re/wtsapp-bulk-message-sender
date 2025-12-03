@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f9fafb;
+  --foreground: #171717;
+  --main-accent:#10b981;
+  --seconday-aacent:#064e3b;
+  --button-aacent:#34d399;
+  --text-accent:#111827
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+@theme {
+   --color-main:var(--main-accent);
+    --color-secondary:var(--seconday-aacent);
+    --color-button:var(--button-aacent);
+    --color-text:var(--text-accent);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+h1, h2, h3, h4, h5 {
+    color: text-main;
+    font-family: var(--font-sans);
+    margin-top:0;
+    margin-bottom:0.5rem;
+  }
+
+  /* ---- HEADINGS ---- */
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight ;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl  lg:text-5xl font-bold  tracking-tight ;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold tracking-tight ;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl font-semibold tracking-tight ;
+  }
+
+  h5 {
+    @apply text-base md:text-lg font-semibold tracking-tight;
+  }
+
+  /* ---- PARAGRAPH ---- */
+  p {
+    @apply text-[15px] text-text leading-relaxed tracking-wide font-normal;
+  }
+
+  a {
+    @apply text-main no-underline;
+  }
+
+  small {
+    @apply text-sm text-text;
+  }
+
+}
