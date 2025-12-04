@@ -4,128 +4,230 @@
 
 
 
-📌 WhatsApp Bulk Messaging – Frontend (Next.js)
+# WhatsApp Bulk Messaging — Frontend (Next.js + TypeScript)
 
-This repository contains the frontend interface for the WhatsApp Bulk Messaging Automation tool.
-The UI is built to make sending WhatsApp messages to multiple users simple, fast, and organized — no manual phone number saving required.
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js\&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript\&logoColor=white) ![Next](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs\&logoColor=white)
+
+> A clean, fast, and responsive frontend for automating WhatsApp messages to multiple contacts via CSV import. Built with Next.js (App Router), TypeScript, and TailwindCSS — production-ready and easy to deploy.
+
+---
+
+## Table of contents
+
+* [Highlights](#highlights)
+* [Live demo / Preview](#live-demo--preview)
+* [Tech stack](#tech-stack)
+* [Features](#features)
+* [Repository structure](#repository-structure)
+* [API contract (backend endpoints)](#api-contract-backend-endpoints)
+* [CSV format](#csv-format)
+* [Environment variables](#environment-variables)
+* [Getting started (local)](#getting-started-local)
+* [UX & quality notes](#ux--quality-notes)
+* [Recommended future enhancements](#recommended-future-enhancements)
+* [Testing & validation](#testing--validation)
+* [Deployment](#deployment)
+* [Contributing](#contributing)
+* [License](#license)
 
 
-🚀 What This Frontend Does
 
-✔ CSV file upload for importing contacts
-✔ UI to generate and display WhatsApp QR code for login
-✔ Send single or bulk messages with one click
-✔ Loading states, UI validations
-✔ Clean and responsive dashboard — mobile + desktop ready
+## Highlights
 
-
-🛠 Tech & Dependencies
-Stack	Details
-Framework	Next.js (App Router)
-Language	TypeScript
-Styling	TailwindCSS
-Icons	React Icons
-State / Logic	Custom React Hooks
-Image	next/image
-Upload	CSV file based import
+* Fast CSV-driven bulk messaging UI — no manual saving of phone numbers
+* QR-based WhatsApp login with auto-polling and robust cleanup
+* Single and bulk send flows with loading states & validations
+* Mobile-first responsive dashboard UI
+* Minimal dependencies, easy to host (Vercel / Netlify)
 
 
-📁 Project Structure
+
+## Tech stack
+
+* **Framework:** Next.js (App Router)
+* **Language:** TypeScript
+* **Styling:** TailwindCSS
+* **State / Logic:** Custom React hooks
+* **Icons:** react-icons
+* **Images:** next/image
+
+
+
+## Features
+
+* CSV upload + preview
+* WhatsApp QR popup with auto-polling until authenticated
+* Send single message (manual) or bulk (CSV) with one click
+* Toast notifications for success / error flows
+* Loading spinners and form-level validations
+* Responsive layout (desktop + mobile)
+
+
+
+## Repository structure
+
+
 src/
  ├─ components/
  │   ├─ BulkMessage/
  │   ├─ WhatsAppQR/
  │   ├─ Header/
- |   |__Main
- |   |__SingleMsgForm/
- |   |__Spinner/
- |   |__UploadForm/
- |  
- |
+ │   ├─ Main/
+ │   ├─ SingleMsgForm/
+ │   ├─ Spinner/
+ │   └─ UploadForm/
  ├─ hooks/
  │   └─ useCSVHook.ts
  ├─ utils/
  │   └─ api.ts
  ├─ constants/
  │   └─ routes.ts
- ├─ app/
- │   ├─ page.tsx
- |   |__send-msg
- │   ├─ globals.css
+ └─ app/
+     ├─ page.tsx
+     ├─ send-msg/
+     └─ globals.css
+```
+
+---
+
+## API contract (backend endpoints)
+
+> All routes are referenced from `constants/routes.ts` as `ROUTES.API`.
+
+* `POST /api/csv/upload-csv` — Accepts CSV file, returns parsed rows and upload id.
+
+  * Request: `multipart/form-data` with `file` field.
+  * Response: `{ success: boolean, data: { rows: Array<{phone,name?,message?}>, uploadId? } }`
+
+* `GET /api/auth/qr-code` — Starts/returns QR for WhatsApp login and session status.
+
+  * Response: `{ qr: string (base64/svg/url), status: 'pending' | 'authenticated' | 'expired' }`
+
+* `POST /api/message/send-single` — Send a single message.
+
+  * Body: `{ phone: string, message: string }`
+  * Response: `{ success: boolean, messageId?: string, error?: string }`
+
+* `POST /api/message/send-bulk` — Send bulk messages.
+
+  * Body: `{ message:string, Array<{ phone: string }>, defaultMessage?: string }`
+  * Response: `{ success: boolean, summary: { sent: number, failed: number, errors?: any[] } }`
+
+> **Note:** Keep backend responses consistent and use clear HTTP status codes. Frontend expects JSON with `success` + `data` or `error` fields.
+
+---
+
+## CSV format
+
+Minimum requirement: **phone** column. Optional columns: **tile**, **category**, **website**.
+
+Example (UTF-8, no BOM):
+
+```
+phone,title,category,website
+919876543210,Rahul,"Hello Rahul, thanks for connecting!"
+919812345678,Anita,
+```
+
+Validation rules enforced by frontend:
+
+* Phone numbers must be E.164-like (country code + number) or a sanitized numeric string.
+* Empty message field will use `defaultMessage` (if provided) or the `message` typed in the UI.
 
 
-🔗 API Endpoints Used (Provided by Backend)
-UPLOAD_FILE              → /api/csv/upload-csv
-GET_WHATSAPP_QR_CODE     → /api/auth/qr-code
-SEND_SINGLE_MESSAGE      → /api/message/send-single
-SEND_BULK_MESSAGE        → /api/message/send-bulk
 
+## Environment variables
 
-All APIs are accessed via ROUTES.API inside constants/routes.ts
+Create a `.env.local` file at project root with:
 
-🔧 Environment Variable
-
-Frontend backend URL must be set correctly:
-
+```
 NEXT_PUBLIC_BASE_URL=https://your-backend-domain.com
+```
+
+> `NEXT_PUBLIC_` prefix is mandatory for access in the browser and for Next.js production builds.
 
 
-⚠ Note: Without NEXT_PUBLIC_ prefix, Next.js prod build env variable will not load.
 
-▶ Running Locally
-1. Clone & Install
+## Getting started (local)
+
+1. Clone
+
+```bash
 git clone https://github.com/arun777-re/wtsapp-bulk-message-sender.git
 cd frontend
+```
+
+2. Install
+
+```bash
 npm install
+# or
+pnpm install
+```
 
-2. Start Dev
+3. Run dev
+
+```bash
 npm run dev
+```
+
+Open `http://localhost:3000`
 
 
-App will run at:
-➡ http://localhost:3000
+
+## UX & quality notes
+
+* QR auto-polling is implemented using `setInterval` stored in a `useRef()` and cleared during cleanup (`useEffect` cleanup) to avoid render loops.
+* CSV handling is abstracted inside `useCSVHook.ts` — responsibilities: parse, validate, preview, upload.
+* Toast notifications (e.g., `react-hot-toast`) show step-by-step statuses: uploading, parsing, queued, sent, failed with retry options.
+* Forms have inline validations (required fields, phone sanitization) and friendly error messages.
+* Minimal external dependencies to keep bundle size low and performance high.
 
 
-📌 CSV Format Requirements
 
-The CSV must contain a phone number column and optionally name/message fields.
+## Recommended improvements (roadmap)
 
-Example:
+* Message templates with placeholders (e.g. `{{name}}`) and preview
+* Upload history with retry and status tracking (sent / delivered / failed)
+* Dark mode and theming
+* Role-based UI (admin / operator)
+* Add unit / integration tests (Jest + React Testing Library)
+* Accessibility audit & fixes (WCAG checklist)
 
-phone	name	message
-919876543210	Rahul	Hello Rahul, thanks for connecting!
-🧩 Reusable UX Components
-Component	Purpose
-Popup	Modal display for WhatsApp QR login
-QRCode	Auto-polling QR display with cleanup
-UploadCSV	CSV preview + upload
-Bulk/Solo Buttons	Action triggers
-🧪 Quality / UX Notes
 
-🔹 Triggers auto-polling for QR until authenticated
-🔹 Interval cleanup handled with useRef() to avoid re-render loops
-🔹 CSV hook abstracts all UI → API logic
-🔹 Toast notifications give clear status feedback
-🔹 Borders, shadows & animations for clean modern UI look
 
-🧭 Future Enhancements
+## Testing & Validation
 
-History of previous CSV uploads
+* Manually test with CSVs that contain edge-cases: missing columns, multiline fields, special characters, and large files (≥5k rows)
+* Test QR lifecycle: pending → authenticate → expired
+* Simulate partial backend failures during bulk send and verify retry UI
 
-Template-based messaging UI
 
-Dark mode
 
-Dashboard analytics (sent / delivered / failed)
+## Deployment
 
-👨‍💻 Developer Notes
+* Recommended: Vercel. Ensure `NEXT_PUBLIC_BASE_URL` points to production backend.
+* For Netlify or other platforms, build command is the default `next build` then `next start` (production) or use Vercel adapter.
 
-This frontend has been built keeping in mind:
 
-Real business usage
 
-Minimum dependencies
+## Contributing
 
-Easy setup on any hosting (Vercel / Netlify)
+1. Fork the repo
+2. Create branch: `feature/your-feature`
+3. Commit changes and push
+4. Open PR with description and screenshots
 
-Fast performance on low-end devices
+Please follow the code style (TypeScript strict mode, ESLint + Prettier) and include tests where possible.
+
+
+
+## License
+
+MIT © Arun
+
+
+
+### Contact
+
+If you want me to convert this into a `README.md` file in the repo, or make the UI copy/pixel-perfect, or generate components from design — tell me which one and I will prepare the next step.
