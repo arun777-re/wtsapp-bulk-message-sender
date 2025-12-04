@@ -19,7 +19,7 @@ const [isTrue,setIsTrue] = React.useState<boolean>(false)
         </div>
 
         {/* Center Options */}
-        <div className="hidden md:flex items-center gap-6 text-gray-600 font-medium">
+        <div className="flex items-center gap-6 text-gray-600 font-medium">
           <button onClick={()=> setIsTrue((p) => !p)} className="text-main cursor-pointer">Connect Whatsapp</button>
         </div>
  {
@@ -29,12 +29,6 @@ const [isTrue,setIsTrue] = React.useState<boolean>(false)
     </>
   )
  }
-        {/* CTA Button */}
-        <div>
-          <button className="bg-primary hover:bg-primaryDark px-5 py-2 rounded-lg text-white font-medium transition-all">
-            Get Leads
-          </button>
-        </div>
       </div>
     </nav>
   );
