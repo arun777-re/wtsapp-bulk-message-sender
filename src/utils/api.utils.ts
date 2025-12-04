@@ -1,4 +1,3 @@
-import { ROUTES } from '@/constant/route'
 import { ApiResponseFormat } from '@/types/response'
 import axios from 'axios'
 

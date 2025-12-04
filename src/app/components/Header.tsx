@@ -20,7 +20,7 @@ const [isTrue,setIsTrue] = React.useState<boolean>(false)
 
         {/* Center Options */}
         <div className="hidden md:flex items-center gap-6 text-gray-600 font-medium">
-          <button onClick={()=> setIsTrue(true)}>Connect Whatsapp</button>
+          <button onClick={()=> setIsTrue((p) => !p)} className="text-main cursor-pointer">Connect Whatsapp</button>
         </div>
  {
   isTrue && (
