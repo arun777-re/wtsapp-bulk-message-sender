@@ -2,6 +2,8 @@
 import useCSVHook from "@/hooks/useCSVHook";
 import { formatPhone } from "@/utils/cleanno";
 import React from "react";
+import Spinner from "./Spinner";
+import toast from "react-hot-toast";
 
 type Props = {
   phoneno: number;
@@ -16,9 +18,9 @@ const SingleMsgForm: React.FC<Props> = ({ phoneno }) => {
   const cleanno = formatPhone(String(phoneno));
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // <-- PAGE RELOAD KO ROKTA HAI
+    e.preventDefault(); 
 
-    if (!singleMessage.trim()) return alert("Message cannot be empty!");
+    if (!singleMessage.trim()) return toast.error("Message cannot be empty!");
 
     try {
       setLoading(true);
@@ -47,7 +49,7 @@ const SingleMsgForm: React.FC<Props> = ({ phoneno }) => {
         placeholder="Send Message"
         value={singleMessage}
         onChange={(e) => setSingleMessage(e.target.value)}
-        className="bg-gray-50 border-2 border-gray-400 rounded-md px-2 placeholder:text-text"
+        className="bg-gray-50 border border-gray-400 rounded-md px-2 placeholder:text-text placeholder:text-sm"
       />
 
       <button
@@ -55,7 +57,7 @@ const SingleMsgForm: React.FC<Props> = ({ phoneno }) => {
         disabled={loading}
         className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition w-max disabled:opacity-50"
       >
-        {loading ? "Sending..." : "Send WhatsApp"}
+        {loading ? <Spinner/> : "Send WhatsApp"}
       </button>
     </form>
   );
