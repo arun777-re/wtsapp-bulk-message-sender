@@ -2,6 +2,7 @@
 import React from "react";
 import SingleMsgForm from "../components/SingleMsgForm";
 import BulkMessage from "../components/BulkMessage";
+import ContactCard from "../components/ContactCard";
 
 const Page = () => {
   const [data, setData] = React.useState<any[]>([]);
@@ -31,30 +32,7 @@ const Page = () => {
           {data &&
             data.length > 0 &&
             data.map((value, key) => (
-              <div
-                key={key}
-                className="bg-white p-5 rounded-xl shadow-sm border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
-              >
-                <div>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {value.title}
-                  </p>
-                  <p className="text-sm text-gray-500">{value.category}</p>
-                  <a
-                    href={value.website}
-                    className="text-blue-600 hover:underline text-sm break-all"
-                  >
-                    {value.website}
-                  </a>
-                </div>
-                <a
-                  href={`tel:${value.rawphone.replace(/\D/g, "")}`}
-                  className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition w-max"
-                >
-                  Call Now
-                </a>
-                <SingleMsgForm phoneno={value.rawphone} />
-              </div>
+             <ContactCard key={key} {...value}/>
             ))}
         </div>
       </div>

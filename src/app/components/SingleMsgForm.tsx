@@ -39,7 +39,7 @@ const SingleMsgForm: React.FC<Props> = ({ phoneno }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col md:flex-row gap-4"
+      className="flex flex-col md:flex-row gap-2"
     >
       <input
         type="text"
