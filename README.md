@@ -68,27 +68,31 @@
 
 
 src/
- ├─ components/
- │   ├─ BulkMessage/
- │   ├─ WhatsAppQR/
- │   ├─ Header/
- │   ├─ Main/
- │   ├─ SingleMsgForm/
- │   ├─ Spinner/
- │   └─ UploadForm/
- ├─ hooks/
- │   └─ useCSVHook.ts
- ├─ utils/
- │   └─ api.ts
- ├─ constants/
- │   └─ routes.ts
- └─ app/
-     ├─ page.tsx
-     ├─ send-msg/
-     └─ globals.css
+├─ components/
+│ ├─ BulkMessage/
+│ ├─ WhatsAppQR/
+│ ├─ Header/
+│ ├─ Main/
+│ ├─ SingleMsgForm/
+│ ├─ Spinner/
+│ └─ UploadForm/
+│
+├─ hooks/
+│ └─ useCSVHook.ts
+│
+├─ utils/
+│ └─ api.ts
+│
+├─ constants/
+│ └─ routes.ts
+│
+└─ app/
+├─ page.tsx
+├─ send-msg/
+└─ globals.css
 ```
 
----
+
 
 ## API contract (backend endpoints)
 
