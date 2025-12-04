@@ -24,9 +24,9 @@ const [isTrue,setIsTrue] = React.useState<boolean>(false)
         </div>
  {
   isTrue && (
-    <>
+    <div className="top-10 relative flex items-center justify-center">
     <WhatsAppQR/>
-    </>
+    </div>
   )
  }
       </div>
