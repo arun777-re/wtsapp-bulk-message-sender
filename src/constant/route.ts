@@ -1,4 +1,4 @@
-const baseUrl = process.env.NEXT_BASE_URL || "http://localhost:8000";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000";
 
 export const ROUTES = {
   WHATSAPPURL:"whatsapp://send?phone=",
