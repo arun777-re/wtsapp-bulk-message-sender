@@ -15,6 +15,7 @@ const Page = () => {
     e.preventDefault();
     e.stopPropagation();
     localStorage.removeItem("data");
+    setData([])
   };
   return (
     <div className="w-full min-h-screen bg-gray-50 px-4 py-10">

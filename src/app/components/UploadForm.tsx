@@ -2,6 +2,8 @@
 import { ApiResponseFormat } from "@/types/response";
 import React, { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import Spinner from "./Spinner";
+import toast from "react-hot-toast";
 
 interface OnUploadProps {
   onUpload:(file:File) => Promise<ApiResponseFormat | undefined>,
@@ -15,7 +17,7 @@ const UploadForm:React.FC<OnUploadProps> = ({onUpload,loading}) => {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
     if (selected?.type !== "text/csv") {
-      alert("Only CSV files allowed");
+      toast.error("Only CSV files allowed");
       return;
     }
     setFile(selected);
@@ -24,7 +26,7 @@ const UploadForm:React.FC<OnUploadProps> = ({onUpload,loading}) => {
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!file) return alert("Please upload a CSV first!");
+    if (!file) return toast.error("Please upload a CSV first!");
     try {
    await onUpload(file);
     } catch (error:any) {
@@ -33,9 +35,9 @@ const UploadForm:React.FC<OnUploadProps> = ({onUpload,loading}) => {
   };
 
 if(loading){
-    return <div>
-        Loading...
-    </div>
+    return 
+      <Spinner/>
+   
 }
 
 

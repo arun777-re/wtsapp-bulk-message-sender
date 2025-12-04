@@ -3,9 +3,7 @@ import axios from 'axios'
 
 export class APIRequestFetch {
     async postRequest({data,url}:{data?:FormData | Record<string,any>,url:string}):Promise<ApiResponseFormat>{
-        const result = await axios.post(url,data,{
-            headers:{"Content-Type":"application/json"}
-        }) 
+        const result = await axios.post(url,data) 
         const res = await result.data;
         return res;
     }
