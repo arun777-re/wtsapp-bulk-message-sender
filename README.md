@@ -66,30 +66,30 @@
 
 ## Repository structure
 
-
 src/
 ├─ components/
-│ ├─ BulkMessage/
-│ ├─ WhatsAppQR/
-│ ├─ Header/
-│ ├─ Main/
-│ ├─ SingleMsgForm/
-│ ├─ Spinner/
-│ └─ UploadForm/
+│  ├─ BulkMessage/
+│  ├─ WhatsAppQR/
+│  ├─ Header/
+│  ├─ Main/
+│  ├─ SingleMsgForm/
+│  ├─ Spinner/
+│  └─ UploadForm/
 │
 ├─ hooks/
-│ └─ useCSVHook.ts
+│  └─ useCSVHook.ts
 │
 ├─ utils/
-│ └─ api.ts
+│  └─ api.ts
 │
 ├─ constants/
-│ └─ routes.ts
+│  └─ routes.ts
 │
 └─ app/
-├─ page.tsx
-├─ send-msg/
-└─ globals.css
+   ├─ page.tsx
+   ├─ send-msg/
+   └─ globals.css
+
 ```
 
 
