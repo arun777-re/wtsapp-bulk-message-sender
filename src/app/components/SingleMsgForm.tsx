@@ -24,14 +24,16 @@ const SingleMsgForm: React.FC<Props> = ({ phoneno }) => {
 
     try {
       setLoading(true);
-      await sendSingleMesage({
+      const res = await sendSingleMesage({
         message: singleMessage,
         phone: Number(cleanno),
       });
-      alert("Message sent successfully!");
+      if(res?.success){
+      toast.success("Message sent successfully!");
       setSingleMessage("");
+      }
     } catch (err) {
-      alert("Failed to send message");
+      toast.error("Failed to send message");
       console.error(err);
     } finally {
       setLoading(false);

@@ -13,7 +13,7 @@ const WhatsAppQR = ({ onClose }: { onClose: () => void }) => {
     if (ref.current) return;
     ref.current = true;
 
-    const interval = setInterval(async () => {
+    let interval = setInterval(async () => {
       const res = await getQRCode();
       if (res?.success && res.data && !Array.isArray(res.data)) {
         setQr(res.data);
